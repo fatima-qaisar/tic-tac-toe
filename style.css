@@ -1,0 +1,71 @@
+*{
+    margin: 0;    /* While adding lots of custom styles, it is a good practice to reset the default margin and padding of all elements to ensure consistency across different browsers. */
+    padding: 0;
+}
+
+body{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    background-color: #071E22;
+    text-align: center;
+}
+
+h1{
+    color: #ED9C5A;
+    font-family: "Luckiest Guy", cursive;
+}
+
+#container{
+    height: 70vh; /* veiwport height -> dynamic height -> 70% of visible page height will be occupied by container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#game-board{
+    height: 60vmin; /* 1% of the smaller dimension of the viewport (either width or height) */
+    width: 60vmin;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5vmin;
+}
+
+.cell{
+    height: 18vmin;
+    width: 18vmin;
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 0 1rem rgba(0,0,0,0.5);
+    background-color: #FCD9DA;
+    font-size: 8vmin;
+    color:#AA0E10;
+}
+
+.gamebtn{
+    padding: 1rem;
+    font-size: 1.25rem;
+    background-color: #E77B23;
+    color: black;
+    border: none;
+    border-radius: 1rem;
+    font-family: "Luckiest Guy", cursive;
+}
+
+#message{
+    font-size: 8vmin;
+    color: #63C346;
+    font-family: "Luckiest Guy", cursive;
+}
+#msg-container{
+    height: 20vmin;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-container{
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
