@@ -51,21 +51,29 @@ h1{
     border: none;
     border-radius: 1rem;
     font-family: "Luckiest Guy", cursive;
+    width: 13vw;
 }
 
 #message{
     font-size: 8vmin;
     color: #63C346;
-    font-family: "Luckiest Guy", cursive;
+    font-family: "Luckiest Guy", cursive; 
 }
-#msg-container{
-    height: 20vmin;
-    align-items: center;
+.msg-container{
+    height: 100vmin;
+    display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 4rem;
 }
 
 .button-container{
     display: flex;
     justify-content: center;
     gap: 2rem;
+}
+
+.hide{
+    display: none;
 }

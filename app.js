@@ -1,6 +1,10 @@
-let cell=document.querySelectorAll(".cell");
-let resetButton=document.querySelector("#reset-button");
+let cells=document.querySelectorAll(".cell");
+let resetBtn=document.querySelector("#reset-btn");
 let turnO=true; // playerX, playerO
+let newGameBtn=document.querySelector("#new-game-btn");
+let messageContainer=document.querySelector(".msg-container");
+let message=document.querySelector("#message");
+
 
 const winningCombinations=[
     [0,1,2], 
@@ -13,9 +17,8 @@ const winningCombinations=[
     [6,7,8],
 ];
 
-cell.forEach((cell)=>{
+cells.forEach((cell)=>{
     cell.addEventListener("click",()=>{
-        console.log("Cell clicked");
         if (turnO){
             cell.innerText="O";
             turnO=false;
@@ -28,12 +31,45 @@ cell.forEach((cell)=>{
 });
 });
 
+const disableCells=()=>{
+    for (let cell of cells){
+        cell.disabled=true;
+    }               
+};
+
+const enableCells=()=>{
+for (let cell of cells){
+    cell.disabled=false;
+    cell.innerText="";
+}   
+};
+ 
+const showWinner=(winner)=>{
+    message.innerText=`Congratulations! Winner is ${winner}`;
+    messageContainer.classList.remove("hide");
+    disableCells();
+};
+
+const resetGame = () => {
+        turnO = true;
+        enableCells();
+        messageContainer.classList.add("hide");
+};
+
+
 const checkWinner=()=>{
     for (let combination of winningCombinations){
-       let pos1Val=cell[combination[0]].innerText; 
-       let pos2Val=cell[combination[1]].innerText; 
-       let pos3Val=cell[combination[2]].innerText;
+       let pos1Val=cells[combination[0]].innerText; 
+       let pos2Val=cells[combination[1]].innerText; 
+       let pos3Val=cells[combination[2]].innerText;
 
-        if (pos1Val !== "" && pos2Val !== "" && pos3Val !== "" && pos1Val===pos2Val && pos2Val===pos3Val){
-            console.log(`Winner: ${pos1Val}`);
-}}}
+        if (pos1Val !== "" && pos2Val !== "" && pos3Val !== ""){
+            if (pos1Val===pos2Val && pos2Val===pos3Val){
+            showWinner(pos1Val);
+}}
+}};
+
+resetBtn.addEventListener("click", resetGame);
+newGameBtn.addEventListener("click", resetGame);
+    
+
