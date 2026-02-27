@@ -12,22 +12,32 @@
         <button id="new-game-btn" class="gamebtn">New Game</button>
     </div>
     <main>
-    <h1>Tic-Tac-Toe Game</h1>
+    <div class="score-player-1">
+        <p id="player1-score">Player O: 0</p>
+    </div>
+    <div class="score-player-2">
+        <p id="player2-score">Player X: 0</p>
+    </div>
+    <h1>TIC-TAC-TOE</h1>
     <div id="container">
+    <div id="game-board-wrapper">
     <div id="game-board">
+         <button class="cell corner-cell-1"></button>
+         <button class="cell"></button>
+         <button class="cell corner-cell-3"></button>
          <button class="cell"></button>
          <button class="cell"></button>
          <button class="cell"></button>
+         <button class="cell corner-cell-7"></button>
          <button class="cell"></button>
-         <button class="cell"></button>
-         <button class="cell"></button>
-         <button class="cell"></button>
-         <button class="cell"></button>
-         <button class="cell"></button>
+         <button class="cell corner-cell-9"></button>
+    </div>
+    <canvas id="line-canvas"></canvas>
     </div>
     </div>
     <div class="button-container">
-    <button id="reset-btn" class="gamebtn">Reset Game</button>
+    <button id="reset-btn" class="gamebtn">Reset Score</button>
+    <button id="end-game-btn" class="gamebtn">End Game</button>
     </div>
     </main>
     <script src="app.js"></script>

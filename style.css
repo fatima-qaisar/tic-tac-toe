@@ -4,15 +4,19 @@
 }
 
 body{
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     margin-bottom: 1rem;
-    background-color: #071E22;
+    background-color: #a4f1bb;
     text-align: center;
 }
 
 h1{
-    color: #ED9C5A;
-    font-family: "Luckiest Guy", cursive;
+    color: #000000;
+    font-family: "Sans Serif", sans-serif;
+    font-size: 3rem;
+    font-weight: bold;
+    padding-bottom: 0.1rem;
+    padding-top: 0.1rem;
 }
 
 #container{
@@ -22,23 +26,61 @@ h1{
     align-items: center;
 }
 
+#game-board-wrapper {
+    position: relative;
+    height: 65vmin; /* 1% of the smaller dimension of the viewport (either width or height) */
+    width: 65vmin;
+     overflow: hidden;
+     display: block;
+}
+
+#line-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;  /* This allows clicks to pass through to buttons */
+    z-index: 10;
+}
+
 #game-board{
-    height: 60vmin; /* 1% of the smaller dimension of the viewport (either width or height) */
-    width: 60vmin;
-    display: flex;
-    flex-wrap: wrap;
+    height: 65vmin;
+    width: 65vmin;
+    position: relative;
+    display: flex;           
+    flex-wrap: wrap; 
     justify-content: center;
-    align-items: center;
-    gap: 1.5vmin;
+    align-items: center;             
+    background-color: #0c0001;
+    border-radius: 1rem;
+    gap: 2.5vmin;    
+}
+
+.score-player-1, .score-player-2 {
+    position: absolute;
+    top: 1rem;  /* distance from top */
+    font-weight: bold;
+    font-size: 1.2rem;
+    font-family: "Sans Serif", sans-serif;
+}
+
+.score-player-1 {
+    left: 1rem; /* left corner */
+    color: blue;
+}
+
+.score-player-2 {
+    right: 1rem; /* right corner */
+    color: red;
 }
 
 .cell{
-    height: 18vmin;
-    width: 18vmin;
-    border-radius: 1rem;
+    height: 20vmin;
+    width: 20vmin;
     border: none;
     box-shadow: 0 0 1rem rgba(0,0,0,0.5);
-    background-color: #FCD9DA;
+    background-color: white;
     font-size: 8vmin;
     color:#AA0E10;
 }
@@ -46,18 +88,18 @@ h1{
 .gamebtn{
     padding: 1rem;
     font-size: 1.25rem;
-    background-color: #E77B23;
-    color: black;
+    background-color: #001A23;
+    color: white;
     border: none;
-    border-radius: 1rem;
-    font-family: "Luckiest Guy", cursive;
-    width: 13vw;
+    border-radius: 3rem;
+    font-family: "Sans Serif", sans-serif;
+    width: 12vw;
 }
 
 #message{
     font-size: 8vmin;
-    color: #63C346;
-    font-family: "Luckiest Guy", cursive; 
+    color: #00241B;
+    font-family: "Sans Serif", sans-serif;
 }
 .msg-container{
     height: 100vmin;
@@ -72,6 +114,28 @@ h1{
     display: flex;
     justify-content: center;
     gap: 2rem;
+    padding-top: 1.5rem;
+}
+
+.cell:hover{
+    background-color: #FCD9DA;
+    cursor: pointer;
+    box-shadow: 0 0 1.5rem rgba(0,0,0,0.7);
+    transform: scale(1.05);
+    transition: transform 0.2s ease-in-out;
+}
+
+.corner-cell-1{
+    border-top-left-radius: 1rem;
+}
+.corner-cell-3{
+    border-top-right-radius: 1rem;
+}
+.corner-cell-7{
+    border-bottom-left-radius: 1rem;
+}
+.corner-cell-9{
+    border-bottom-right-radius: 1rem;
 }
 
 .hide{
