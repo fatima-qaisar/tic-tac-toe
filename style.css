@@ -6,12 +6,12 @@
 body{
     margin-top: 1.5rem;
     margin-bottom: 1rem;
-    background-color: #a4f1bb;
+    background-color: #A82323;
     text-align: center;
 }
 
 h1{
-    color: #000000;
+    color: #F3F4F4;
     font-family: "Sans Serif", sans-serif;
     font-size: 3rem;
     font-weight: bold;
@@ -57,30 +57,11 @@ h1{
     gap: 2.5vmin;    
 }
 
-.score-player-1, .score-player-2 {
-    position: absolute;
-    top: 1rem;  /* distance from top */
-    font-weight: bold;
-    font-size: 1.2rem;
-    font-family: "Sans Serif", sans-serif;
-}
-
-.score-player-1 {
-    left: 1rem; /* left corner */
-    color: blue;
-}
-
-.score-player-2 {
-    right: 1rem; /* right corner */
-    color: red;
-}
-
 .cell{
     height: 20vmin;
     width: 20vmin;
     border: none;
-    box-shadow: 0 0 1rem rgba(0,0,0,0.5);
-    background-color: white;
+    background-color: #FEFFD3;
     font-size: 8vmin;
     color:#AA0E10;
 }
@@ -98,7 +79,7 @@ h1{
 
 #message{
     font-size: 8vmin;
-    color: #00241B;
+    color: #F3F4F4;
     font-family: "Sans Serif", sans-serif;
 }
 .msg-container{
@@ -118,9 +99,8 @@ h1{
 }
 
 .cell:hover{
-    background-color: #FCD9DA;
+    background-color: #BCD9A2;
     cursor: pointer;
-    box-shadow: 0 0 1.5rem rgba(0,0,0,0.7);
     transform: scale(1.05);
     transition: transform 0.2s ease-in-out;
 }

@@ -4,6 +4,10 @@ let turnO = true;
 let newGameBtn = document.querySelector("#new-game-btn");
 let messageContainer = document.querySelector(".msg-container");
 let message = document.querySelector("#message");
+let gameOver = false;
+let animationId = null;
+let winningCombo = null;
+let isResizing = false;
 
 // Canvas related variables
 let canvas = document.querySelector("#line-canvas");
@@ -11,7 +15,8 @@ let ctx = canvas.getContext('2d');
 let gameBoard = document.querySelector("#game-board");
 let gameBoardWrapper = document.querySelector("#game-board-wrapper");
 let winningLineDrawn = false;
-let currentWinner = null; // Track current winner
+let currentWinner = null;
+
 
 const winningCombinations = [
     [0,1,2], [0,3,6], [0,4,8], [1,4,7],
@@ -20,6 +25,7 @@ const winningCombinations = [
 
 cells.forEach((cell) => {
     cell.addEventListener("click", () => {
+        if (gameOver) return; // Prevent moves after game is over
         if (turnO) {
             cell.innerText = "O";
             cell.style.color = "blue";
@@ -38,7 +44,9 @@ cells.forEach((cell) => {
 });
 
 const disableCells = () => {
-    for (let cell of cells) cell.disabled = true;
+    for (let cell of cells) {
+        cell.disabled = true;
+    }
 };
 
 const enableCells = () => {
@@ -67,7 +75,7 @@ const getCellCenter = (index) => {
     return { x: centerX, y: centerY };
 };
 
-// FIX: Perfect line positioning within cells
+// Perfect line positioning within cells
 const getPerfectLinePoints = (startPos, endPos, combo) => {
     // Calculate direction vector
     const dx = endPos.x - startPos.x;
@@ -118,6 +126,9 @@ const getPerfectLinePoints = (startPos, endPos, combo) => {
 const drawWinningLine = (combination) => {
     if (!combination || winningLineDrawn) return;
     
+    cancelAnimationFrame(animationId);
+    animationId = null;
+
     winningLineDrawn = true;
     resizeCanvas();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -129,16 +140,15 @@ const drawWinningLine = (combination) => {
     const { start, end } = getPerfectLinePoints(startPos, endPos, combination);
     
     // Animation variables
-    let progress = 0;
     const animationSpeed = 0.03;
-    
+    let progress = 0;
     const animate = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
         // Calculate current end point for animation
         const currentX = start.x + (end.x - start.x) * progress;
         const currentY = start.y + (end.y - start.y) * progress;
-        
+        if (isResizing) return;
         // Draw main line
         ctx.beginPath();
         ctx.strokeStyle = '#2b0000';
@@ -159,43 +169,47 @@ const drawWinningLine = (combination) => {
         
         if (progress < 1) {
             progress += animationSpeed;
-            requestAnimationFrame(animate);
+            animationId = requestAnimationFrame(animate);
         }
     };
-    
     animate();
 };
 
-const clearWinningLine = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    winningLineDrawn = false;
-};
 
-// Modified showWinner with line disappearance
 const showWinner = (winner) => {
+    gameOver = true;
     currentWinner = winner; // Store the winner
-    
+    disableCells();
     // Then show the winner message after a tiny delay
     setTimeout(() => {
         if (!winner) {
             message.innerText = "It's a DRAW!";
         } else {
-            message.innerText = `Congratulations! Winner is Player ${winner}`;
+            message.innerText = `Player ${winner} wins!`;
         }
-        messageContainer.classList.remove("hide");
-        disableCells();
-    }, 1800); // Small delay of 1000ms
+        messageContainer.classList.remove("hide"); 
+    }, 1400); // Small delay of 1400ms
 };
+
 
 const resetGame = () => {
     turnO = true;
+    winningCombo = null;
     enableCells();
     messageContainer.classList.add("hide");
-    clearWinningLine();
+
     currentWinner = null;
+    winningLineDrawn = false;
+    gameOver = false;
+
+    cancelAnimationFrame(animationId);
+    animationId = null;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 };
 
 const checkWinner = () => {
+    if (gameOver) return false;
     for (let combination of winningCombinations) {
         let pos1Val = cells[combination[0]].innerText; 
         let pos2Val = cells[combination[1]].innerText; 
@@ -203,8 +217,8 @@ const checkWinner = () => {
 
         if (pos1Val !== "" && pos2Val !== "" && pos3Val !== "") {
             if (pos1Val === pos2Val && pos2Val === pos3Val) {
+                winningCombo = combination; // Store the winning combination
                 drawWinningLine(combination);
-                clearWinningLine(); // Clear the line immediately
                 showWinner(pos1Val); // Show winner message
                 return true;
             }
@@ -214,38 +228,56 @@ const checkWinner = () => {
 };
 
 const checkDraw = () => {
+    if (winningLineDrawn) return;
     let allFilled = true;
     for (let cell of cells) {
         if (cell.innerText === "") {
             allFilled = false;
         }
     }
-    if (allFilled && !checkWinner()) {
+    if (allFilled) {
         showWinner(false);
     }
 };
 
-// Initialize
+const drawWinningLineStatic = (combination) => {
+    const startPos = getCellCenter(combination[0]);
+    const endPos = getCellCenter(combination[2]);
+
+    const { start, end } = getPerfectLinePoints(startPos, endPos, combination);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // outer line
+    ctx.beginPath();
+    ctx.strokeStyle = '#2b0000';
+    ctx.lineWidth = 8;
+    ctx.lineCap = 'round';
+    ctx.moveTo(start.x, start.y);
+    ctx.lineTo(end.x, end.y);
+    ctx.stroke();
+
+    // inner line
+    ctx.beginPath();
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 3;
+    ctx.moveTo(start.x, start.y);
+    ctx.lineTo(end.x, end.y);
+    ctx.stroke();
+};
+
 window.addEventListener('load', () => {
     resizeCanvas();
 });
 
 window.addEventListener('resize', () => {
+    isResizing = true;
     resizeCanvas();
-    if (winningLineDrawn && currentWinner) {
-        // Redraw the winning line if needed
-        for (let combination of winningCombinations) {
-            let pos1Val = cells[combination[0]].innerText;
-            let pos2Val = cells[combination[1]].innerText;
-            let pos3Val = cells[combination[2]].innerText;
-            
-            if (pos1Val !== "" && pos2Val !== "" && pos3Val !== "" && 
-                pos1Val === pos2Val && pos2Val === pos3Val) {
-                drawWinningLine(combination);
-                break;
-            }
-        }
+
+    if (winningLineDrawn && winningCombo) {
+        drawWinningLineStatic(winningCombo);
     }
+    isResizing = false;
 });
 
 resetBtn.addEventListener("click", resetGame);
