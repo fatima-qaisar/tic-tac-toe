@@ -23,6 +23,8 @@ const winningCombinations = [
     [2,5,8], [2,4,6], [3,4,5], [6,7,8],
 ];
 
+
+    
 cells.forEach((cell) => {
     cell.addEventListener("click", () => {
         if (gameOver) return; // Prevent moves after game is over
@@ -187,12 +189,16 @@ const showWinner = (winner) => {
         } else {
             message.innerText = `Player ${winner} wins!`;
         }
-        messageContainer.classList.remove("hide"); 
+        messageContainer.classList.remove("hide");
+        resetBtn.classList.add("hide");
+        document.body.style.backgroundColor = "#AEB784"; 
     }, 1400); // Small delay of 1400ms
 };
 
 
 const resetGame = () => {
+    resetBtn.classList.remove("hide");
+    document.body.style.backgroundColor = "#A94A4A";
     turnO = true;
     winningCombo = null;
     enableCells();

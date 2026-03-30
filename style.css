@@ -6,7 +6,7 @@
 body{
     margin-top: 1rem;
     margin-bottom: 1rem;
-    background-color: #A82323;
+    background-color: #A94A4A;
     text-align: center;
 }
 
@@ -17,9 +17,9 @@ body{
 }
 
 h1{
-    color: #fcf29c;
-    -webkit-text-stroke-color: #470107;
-    -webkit-text-stroke-width: 5px;
+    color: #FADA7A;
+    -webkit-text-stroke-color: #780C28;
+    -webkit-text-stroke-width: 4px;
     font-size: 4.5rem;
     font-weight: bold;
     padding-bottom: 0.1rem;
@@ -84,12 +84,13 @@ h1{
     width: 12vw;
 }
 
+
 #message{
     font-size: 15vmin;
     font-family: "Coiny", system-ui;
-    color: #ffd23d;
+    color: #3f0000;
     -webkit-text-stroke-color: #ffffff;
-    -webkit-text-stroke-width: 5px;
+    -webkit-text-stroke-width: 2px;
 }
 .msg-container{
     height: 100vmin;
@@ -108,7 +109,7 @@ h1{
 }
 
 .cell:hover{
-    background-color: #defdef;
+    background-color: #fddede;
     cursor: pointer;
     transform: scale(1.05);
     transition: transform 0.2s ease-in-out;
