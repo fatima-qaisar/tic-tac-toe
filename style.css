@@ -4,23 +4,30 @@
 }
 
 body{
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     margin-bottom: 1rem;
     background-color: #A82323;
     text-align: center;
 }
 
+.coiny-regular {
+  font-family: "Coiny", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
 h1{
-    color: #F3F4F4;
-    font-family: "Sans Serif", sans-serif;
-    font-size: 3rem;
+    color: #ffe3f1;
+    -webkit-text-stroke-color: #470107;
+    -webkit-text-stroke-width: 5px;
+    font-size: 4.5rem;
     font-weight: bold;
     padding-bottom: 0.1rem;
     padding-top: 0.1rem;
 }
 
 #container{
-    height: 70vh; /* veiwport height -> dynamic height -> 70% of visible page height will be occupied by container */
+    height: 65vh; /* veiwport height -> dynamic height -> 70% of visible page height will be occupied by container */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,8 +37,8 @@ h1{
     position: relative;
     height: 65vmin; /* 1% of the smaller dimension of the viewport (either width or height) */
     width: 65vmin;
-     overflow: hidden;
-     display: block;
+    overflow: hidden;
+    display: block;
 }
 
 #line-canvas {
@@ -78,9 +85,11 @@ h1{
 }
 
 #message{
-    font-size: 8vmin;
-    color: #F3F4F4;
-    font-family: "Sans Serif", sans-serif;
+    font-size: 15vmin;
+    font-family: "Coiny", system-ui;
+    color: #ffd23d;
+    -webkit-text-stroke-color: #ffffff;
+    -webkit-text-stroke-width: 5px;
 }
 .msg-container{
     height: 100vmin;
@@ -99,7 +108,7 @@ h1{
 }
 
 .cell:hover{
-    background-color: #BCD9A2;
+    background-color: #ffeaa5;
     cursor: pointer;
     transform: scale(1.05);
     transition: transform 0.2s ease-in-out;
