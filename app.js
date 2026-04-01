@@ -13,10 +13,8 @@ let sessionId = 0; // Unique session ID for each game instance
 // Canvas related variables
 let canvas = document.querySelector("#line-canvas");
 let ctx = canvas.getContext('2d');
-let gameBoard = document.querySelector("#game-board");
 let gameBoardWrapper = document.querySelector("#game-board-wrapper");
 let winningLineDrawn = false;
-let currentWinner = null;
 
 
 const winningCombinations = [
@@ -56,6 +54,7 @@ const enableCells = () => {
     for (let cell of cells) {
         cell.disabled = false;
         cell.innerText = "";
+        cell.style.color = "";
     }
 };
 
@@ -79,7 +78,7 @@ const getCellCenter = (index) => {
 };
 
 // Perfect line positioning within cells
-const getPerfectLinePoints = (startPos, endPos, combo) => {
+const getPerfectLinePoints = (startPos, endPos) => {
     // Calculate direction vector
     const dx = endPos.x - startPos.x;
     const dy = endPos.y - startPos.y;
@@ -93,19 +92,8 @@ const getPerfectLinePoints = (startPos, endPos, combo) => {
     // We want the line to start and end at the edges of the cells
     // But still pass through the center
     
-    // For horizontal/vertical lines, shorten by half cell width
-    // For diagonals, shorten by a bit more to stay within corners
+    let inset=cellSize * 0.2;
     
-    let extendBy;
-    
-    // Check if it's a diagonal
-    if (combo[0] === 0 && combo[2] === 8) { // Top-left to bottom-right
-        extendBy = -cellSize * 0.2;  
-    } else if (combo[0] === 2 && combo[2] === 6) { // Top-right to bottom-left
-        extendBy = -cellSize * 0.2;
-    } else {
-        extendBy = -cellSize * 0.2;
-    }
     
     // Calculate unit vector
     const unitX = dx / distance;
@@ -113,13 +101,13 @@ const getPerfectLinePoints = (startPos, endPos, combo) => {
     
     // Adjust start and end points
     const adjustedStart = {
-        x: startPos.x + unitX * extendBy,
-        y: startPos.y + unitY * extendBy
+        x: startPos.x + unitX * inset,
+        y: startPos.y + unitY * inset
     };
     
     const adjustedEnd = {
-        x: endPos.x - unitX * extendBy,
-        y: endPos.y - unitY * extendBy
+        x: endPos.x - unitX * inset,
+        y: endPos.y - unitY * inset
     };
     
     return { start: adjustedStart, end: adjustedEnd };
@@ -140,7 +128,7 @@ const drawWinningLine = (combination) => {
     const endPos = getCellCenter(combination[2]);
     
     // Get perfectly positioned points
-    const { start, end } = getPerfectLinePoints(startPos, endPos, combination);
+    const { start, end } = getPerfectLinePoints(startPos, endPos);
     
     // Animation variables
     const animationSpeed = 0.03;
@@ -181,7 +169,6 @@ const drawWinningLine = (combination) => {
 
 const showWinner = (winner) => {
     gameOver = true;
-    currentWinner = winner; // Store the winner
     disableCells();
     let currentSessionId = ++sessionId; // Increment session ID for this game instance
     // Then show the winner message after a tiny delay
@@ -209,7 +196,6 @@ const resetGame = () => {
     winningCombo = null;
     enableCells();
     messageContainer.classList.add("hide");
-    currentWinner = null;
     winningLineDrawn = false;
     gameOver = false;
     cancelAnimationFrame(animationId);
@@ -252,7 +238,7 @@ const drawWinningLineStatic = (combination) => {
     const startPos = getCellCenter(combination[0]);
     const endPos = getCellCenter(combination[2]);
 
-    const { start, end } = getPerfectLinePoints(startPos, endPos, combination);
+    const { start, end } = getPerfectLinePoints(startPos, endPos);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
