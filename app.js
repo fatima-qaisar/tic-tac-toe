@@ -8,6 +8,7 @@ let gameOver = false;
 let animationId = null;
 let winningCombo = null;
 let isResizing = false;
+let sessionId = 0; // Unique session ID for each game instance
 
 // Canvas related variables
 let canvas = document.querySelector("#line-canvas");
@@ -29,12 +30,12 @@ cells.forEach((cell) => {
     cell.addEventListener("click", () => {
         if (gameOver) return; // Prevent moves after game is over
         if (turnO) {
-            cell.innerText = "O";
             cell.style.color = "blue";
+            cell.innerText = "O";
             turnO = false;
         } else {
-            cell.innerText = "X";
             cell.style.color = "red";
+            cell.innerText = "X";
             turnO = true;
         }
         cell.disabled = true;
@@ -182,8 +183,12 @@ const showWinner = (winner) => {
     gameOver = true;
     currentWinner = winner; // Store the winner
     disableCells();
+    let currentSessionId = ++sessionId; // Increment session ID for this game instance
     // Then show the winner message after a tiny delay
     setTimeout(() => {
+        if (sessionId !== currentSessionId) {
+            return; 
+        }
         if (!winner) {
             message.innerText = "It's a DRAW!";
         } else {
@@ -197,20 +202,18 @@ const showWinner = (winner) => {
 
 
 const resetGame = () => {
+    sessionId++; // Increment session ID to invalidate any pending winner messages
     resetBtn.classList.remove("hide");
     document.body.style.backgroundColor = "#A94A4A";
     turnO = true;
     winningCombo = null;
     enableCells();
     messageContainer.classList.add("hide");
-
     currentWinner = null;
     winningLineDrawn = false;
     gameOver = false;
-
     cancelAnimationFrame(animationId);
     animationId = null;
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 };
 
@@ -234,7 +237,6 @@ const checkWinner = () => {
 };
 
 const checkDraw = () => {
-    if (winningLineDrawn) return;
     let allFilled = true;
     for (let cell of cells) {
         if (cell.innerText === "") {
