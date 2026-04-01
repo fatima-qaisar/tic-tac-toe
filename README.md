@@ -58,25 +58,8 @@ Tic-Tac-Toe/
 
 ---
 
-## ▶️ How to Run Locally
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/your-username/tic-tac-toe.git
-   ```
-
-2. Navigate to the project folder:
-
-   ```bash
-   cd tic-tac-toe
-   ```
-
-3. Open `index.html` in your browser:
-
-   * Double-click the file
-     **OR**
-   * Use Live Server (VS Code extension)
+## ▶️ Run Locally
+Clone the repo and open `index.html` in your browser, or use the Live Server VS Code extension.
 
 ---
 
