@@ -92,7 +92,7 @@ const getPerfectLinePoints = (startPos, endPos) => {
     // We want the line to start and end at the edges of the cells
     // But still pass through the center
     
-    let inset=cellSize * 0.2;
+    let extendBy=-cellSize * 0.2;
     
     
     // Calculate unit vector
@@ -101,13 +101,13 @@ const getPerfectLinePoints = (startPos, endPos) => {
     
     // Adjust start and end points
     const adjustedStart = {
-        x: startPos.x + unitX * inset,
-        y: startPos.y + unitY * inset
+        x: startPos.x + unitX * extendBy,
+        y: startPos.y + unitY * extendBy
     };
     
     const adjustedEnd = {
-        x: endPos.x - unitX * inset,
-        y: endPos.y - unitY * inset
+        x: endPos.x - unitX * extendBy,
+        y: endPos.y - unitY * extendBy
     };
     
     return { start: adjustedStart, end: adjustedEnd };
